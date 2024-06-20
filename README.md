@@ -41,7 +41,7 @@ Resourses used to learn the basics of machine learning, and helped with the acco
 
 The data collected from the historical matches can be used to feature engineer more accurate data for the model to work with.
 
-## Elo ratings for both teams.
+### 1. Elo ratings for both teams.
 
 The following formula for calculating the team elo's was gathered from wikipedia, which also references eloratings.net. A similar elo system is used by the international chess federation to rank players. The implementation used for ranking football teams is a modified version of the formula.
 
@@ -57,7 +57,7 @@ The following formula for calculating the team elo's was gathered from wikipedia
   $$
   \text{We} = \frac{1}{10^{-\frac{\text{dr}}{400}} + 1}
   $$
-  where \( \text{dr} \) is the difference in Elo ratings (home - away).
+  where _dr_ is the difference in Elo ratings (home - away).
 
 ![Match Weight](images/Match-Results.png)
 
@@ -79,24 +79,37 @@ $$
 \text{new\_elo} = \text{current\_elo} + K \times g \times (w - \text{We})
 $$
 
-where \( K \) is the K value, \( g \) is the goal index, \( w \) is the match result, and \( \text{We} \) is the expected result.
+where $ K $ is the K value, $ g $ is the goal index, $ w $ is the match result, and $ \text{We} $ is the expected result.
 
 ![Formula](images/Formula.png)
 
-## Attack and defense ratings for both teams.
+### Attack and Defense Ratings
 
-### Expected Goals
+#### Expected Goals
 
-- The expected goals for home and away teams are calculated using the formula:
-  $$ \text{{xg\_home}} = \text{{home\_attack}} \times \text{{away\_defense}} \times c $$
-  $$ \text{{xg\_away}} = \text{{away\_attack}} \times \text{{home\_defense}} / c $$
-  where \( c \) accounts for the home team advantage.
+The expected goals for home and away teams are calculated using the formula:
 
-### Ratings Update
+$$
+\text{xg\_home} = \text{home\_attack} \times \text{away\_defense} \times c
+$$
 
-- The `calculate_attack_defense` function updates the attack and defense ratings for both teams. The formula used is:
-  $$ \text{{new\_attack}} = \text{{current\_attack}} + \frac{K}{2000} \times (\text{{actual\_goals}} - \text{{expected\_goals}}) $$
-  $$ \text{{new\_defense}} = \text{{current\_defense}} + \frac{K}{2000} \times (\text{{actual\_goals\_conceded}} - \text{{expected\_goals\_conceded}}) $$
+$$
+\text{xg\_away} = \text{away\_attack} \times \text{home\_defense} / c
+$$
+
+where $ c $ accounts for the home team advantage.
+
+#### Ratings Update
+
+The `calculate_attack_defense` function updates the attack and defense ratings for both teams. The formula used is:
+
+$$
+\text{new\_attack} = \text{current\_attack} + \frac{K}{2000} \times (\text{actual\_goals} - \text{expected\_goals})
+$$
+
+$$
+\text{new\_defense} = \text{current\_defense} + \frac{K}{2000} \times (\text{actual\_goals\_conceded} - \text{expected\_goals\_conceded})
+$$
 
 ## Machine Learning Predictions
 
