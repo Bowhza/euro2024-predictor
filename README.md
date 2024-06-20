@@ -2,7 +2,7 @@
 
 This repository contains code to predict the outcomes of EURO 2024 football matches using a machine learning model trained with XGBoost. The model is trained on historical match data and predicts which team will win each matchup.
 
-Currently the results are available for the group stage matches and more will be available after the knockout stage matchups are set.
+Currently the predictions are available for the group stage matches and more will be available after the knockout stage matchups are set.
 
 [Click here to view the Jupyter Notebook](model.ipynb)
 
@@ -10,7 +10,9 @@ Currently the results are available for the group stage matches and more will be
 
 The project uses historical match data to train an XGBoost classifier. The features used for training include the Elo ratings of the home and away teams, as well as their attack and defense ratings. The model is then used to predict the outcomes of future matches.
 
-Resourses used to learn the basics of machine learning, and helped with the accomplishing the results of this project are listed below:
+**Note**: The idea behind this project came from my interest/hobby in sports, especially football (soccer), and the desire to explore the realm of machine learning. The EURO 2024 tournament provided with an opportunity to learn and put together a project that combines my interests.
+
+Resourses used to learn the basics of machine learning and data science that helped with the completion of this project are listed below:
 
 **Courses**
 
@@ -54,10 +56,10 @@ The following formula for calculating the team elo's was gathered from wikipedia
 ### Expected Result
 
 - The `expected_result` function calculates the expected probability of the home team winning using the difference in Elo ratings between the home and away teams. The formula used is:
-  $$
-  \text{We} = \frac{1}{10^{-\frac{\text{dr}}{400}} + 1}
-  $$
-  where _dr_ is the difference in Elo ratings (home - away).
+
+$$ \text{We} = \frac{1}{10^{-\frac{\text{dr}}{400}} + 1} $$
+
+where _dr_ is the difference in Elo ratings (home - away).
 
 ![Match Weight](images/Match-Results.png)
 
@@ -75,11 +77,9 @@ The following formula for calculating the team elo's was gathered from wikipedia
 
 The `calculate_elo` function updates the Elo ratings for both teams after a match. The formula used is:
 
-$$
-\text{new\_elo} = \text{current\_elo} + K \times g \times (w - \text{We})
-$$
+$$ \text{new\\_elo} = \text{current\\_elo} + K \times g \times (w - \text{We}) $$
 
-where $ K $ is the K value, $ g $ is the goal index, $ w $ is the match result, and $ \text{We} $ is the expected result.
+where $K$ is the K value, $g$ is the goal index, $w$ is the match result, and $\text{We}$ is the expected result.
 
 ![Formula](images/Formula.png)
 
@@ -87,29 +87,21 @@ where $ K $ is the K value, $ g $ is the goal index, $ w $ is the match result, 
 
 #### Expected Goals
 
-The expected goals for home and away teams are calculated using the formula:
+The expected goals for home and away teams are calculated using the following formulas:
 
-$$
-\text{xg\_home} = \text{home\_attack} \times \text{away\_defense} \times c
-$$
+$$ \text{xg\\_home} = \text{home\\_attack} \times \text{away\\_defense} \times c $$
 
-$$
-\text{xg\_away} = \text{away\_attack} \times \text{home\_defense} / c
-$$
+$$ \text{xg\\_away} = \text{away\\_attack} \times \text{home\\_defense} / c $$
 
-where $ c $ accounts for the home team advantage.
+where $c$ accounts for the home team advantage (set to 1.33 for this project).
 
 #### Ratings Update
 
-The `calculate_attack_defense` function updates the attack and defense ratings for both teams. The formula used is:
+The `calculate_attack_defense` function updates the attack and defense ratings for both teams. The formulas used are:
 
-$$
-\text{new\_attack} = \text{current\_attack} + \frac{K}{2000} \times (\text{actual\_goals} - \text{expected\_goals})
-$$
+$$ \text{new\\_attack} = \text{current\\_attack} + \frac{K}{2000} \times (\text{actual\\_goals} - \text{expected\\_goals}) $$
 
-$$
-\text{new\_defense} = \text{current\_defense} + \frac{K}{2000} \times (\text{actual\_goals\_conceded} - \text{expected\_goals\_conceded})
-$$
+$$ \text{new\\_defense} = \text{current\\_defense} + \frac{K}{2000} \times (\text{actual\\_goals\\_conceded} - \text{expected\\_goals\\_conceded}) $$
 
 ## Machine Learning Predictions
 
